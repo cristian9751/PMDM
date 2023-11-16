@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.cristianpopica.singincristian.ui.Screens.appContent
+import com.cristianpopica.singincristian.ui.Screens.chipsActionMovies
 import com.cristianpopica.singincristian.ui.Screens.profileInfo
 import com.cristianpopica.singincristian.ui.theme.SinginCristianTheme
 
@@ -22,10 +23,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                   val actionMovies = listOf("Die Hard", "Mad Max", "The Dark night", "Jhon Wick"
+                   , "Mision Imposible")
                    Column(
                        modifier = Modifier.fillMaxSize()
                    ) {
                        profileInfo(profileName = "Cristian Popica", profilePictureDrawableId = R.drawable.profilepicture)
+                       chipsActionMovies(chipOptions = actionMovies)
                        appContent()
                    }
                 }

@@ -3,6 +3,8 @@
 package com.cristianpopica.singincristian.ui.Screens
 import android.icu.text.SimpleDateFormat
 import android.util.Log
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -17,6 +19,7 @@ import androidx.compose.runtime.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -42,12 +45,14 @@ val phoneRegex = Regex("^\\d{9}\$")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun appContent() {
+
     var name by rememberSaveable { mutableStateOf("") }
     var lastName by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var phoneNumber by rememberSaveable { mutableStateOf("") }
     var birthDate = rememberDatePickerState(initialSelectedDateMillis = Calendar.getInstance().timeInMillis)
     var scrollState = rememberScrollState(0)
+
     var buttonSubmitEnabled by rememberSaveable {
         mutableStateOf(false)
     }
@@ -57,6 +62,7 @@ fun appContent() {
 
 
    Column(
+
        modifier = Modifier
            .padding(10.dp)
            .verticalScroll(scrollState)
