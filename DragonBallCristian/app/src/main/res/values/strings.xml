@@ -2,4 +2,14 @@
     <string name="app_name">DragonBallCristian</string>
     <string name="akira_name">Akira Toriyama</string>
     <string name="dialog_title">Personal information</string>
+    <string name="no_char_selected">You must select a character</string>
+    <string name="spanish_name_label">Spanish name</string>
+    <string name="info_subtitle">Character information</string>
+    <string name="japanese_name_label">Japanese name</string>
+    <string name="other_name_label">Other name</string>
+    <string name="birthday_year_label">Birthday Year</string>
+    <string name="gender_label">Gender</string>
+    <string name="species_label">Species</string>
+    <string name="information_label">More information</string>
+    <string name="unspecified">Unspecified</string>
 </resources>

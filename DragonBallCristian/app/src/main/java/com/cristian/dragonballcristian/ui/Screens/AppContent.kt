@@ -2,7 +2,9 @@ package com.cristian.dragonballcristian.ui.Screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -27,9 +29,9 @@ import com.cristian.dragonballcristian.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppContent(content : @Composable (PaddingValues) -> Unit) {
+fun AppContent() {
     Scaffold(
-        floatingActionButton = { FloatingButtonProfile()},
+        floatingActionButton = { FloatingButtonProfile() },
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
@@ -54,10 +56,29 @@ fun AppContent(content : @Composable (PaddingValues) -> Unit) {
             )
         },
 
-    ) { padding ->
-        content(padding)
+        ) { padding ->
+        var selectedCharacterId by rememberSaveable {
+            mutableStateOf(0)
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
+            showCharacterList(
+                modifier = Modifier.weight(30f),
+                selectedCharacter = selectedCharacterId
+            ) { selectedId ->
+                selectedCharacterId = selectedId
+            }
+            showCharacter(
+                characterId = selectedCharacterId,
+                modifier = Modifier.weight(70f)
+            )
+        }
     }
 }
+
 
 @Composable
 fun FloatingButtonProfile() {
@@ -65,9 +86,9 @@ fun FloatingButtonProfile() {
         mutableStateOf(false)
     }
 
-    if(profileSelected) {
+    if (profileSelected) {
         infoToggleAlertDialog(
-            profileName = "Cristian",
+            profileName = "Cristian Popica",
             profilePictureDrawableId = R.drawable.ic_launcher_foreground
         ) {
             profileSelected = false
@@ -86,7 +107,6 @@ fun FloatingButtonProfile() {
             )
         }
     }
-
 
 
 }
