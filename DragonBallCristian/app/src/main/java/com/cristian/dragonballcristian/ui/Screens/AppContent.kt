@@ -3,6 +3,7 @@ package com.cristian.dragonballcristian.ui.Screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -30,6 +31,9 @@ import com.cristian.dragonballcristian.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppContent() {
+    var selectedCharacterId by rememberSaveable {
+        mutableStateOf(0)
+    }
     Scaffold(
         floatingActionButton = { FloatingButtonProfile() },
         topBar = {
@@ -45,7 +49,10 @@ fun AppContent() {
                     titleContentColor = colorResource(id = R.color.darker_yellow)
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                            selectedCharacterId = 0
+                    }
+                    ) {
                         Image(
                             painter = painterResource(id = R.drawable.dragonball_logo),
                             contentDescription = null,
@@ -57,9 +64,6 @@ fun AppContent() {
         },
 
         ) { padding ->
-        var selectedCharacterId by rememberSaveable {
-            mutableStateOf(0)
-        }
         Row(
             modifier = Modifier
                 .fillMaxSize()
@@ -73,7 +77,9 @@ fun AppContent() {
             }
             showCharacter(
                 characterId = selectedCharacterId,
-                modifier = Modifier.weight(70f)
+                modifier = Modifier
+                    .weight(70f)
+                    .fillMaxHeight()
             )
         }
     }

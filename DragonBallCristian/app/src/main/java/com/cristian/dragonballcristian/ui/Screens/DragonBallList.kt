@@ -27,11 +27,13 @@ fun showCharacterList(modifier : Modifier, selectedCharacter : Int, select : (In
             character.spanishName[0]
         }
     LazyColumn(
-        modifier = modifier
+        modifier = modifier,
     ) {
 
         items(charactersGroupedByName.entries.toList()) { (letter, characterList) ->
-            LazyRow {
+            LazyRow(
+                userScrollEnabled = false
+            ) {
                 stickyHeader {
                     Text(
                         text = letter.toString(),
@@ -41,10 +43,12 @@ fun showCharacterList(modifier : Modifier, selectedCharacter : Int, select : (In
                 }
 
                 item {
-                    Column {
+                    Column(
+                    ) {
                         characterList.forEach { character ->
                             var isSelected = character.id == selectedCharacter
-                            Button(onClick = {
+                            Button(
+                                onClick = {
                                 select(character.id)
                             }) {
                                 if(isSelected) {
