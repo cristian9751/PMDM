@@ -76,7 +76,7 @@ fun MovieInfo(
             }
         ) {
             Text(
-                text = if(movie.favorite) "Quitar favoritos" else "Añadir favoritos")
+                text = if(movie.favorite) "Quitar de favoritos" else "Agregar a favoritos")
         }
 
         Text(
