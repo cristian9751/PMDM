@@ -30,7 +30,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -105,13 +104,7 @@ fun MainScreen(
         mutableStateOf("")
     }
 
-    /***
-     * Estado que se calcula para saber cuando todavia se esta cargando la lista que se va a mos
-     * en la lazyColumn  y asi mostrar el componente loading mientras se carga
-     * Se comprueba si la filterList esta vacia ya que al lanzar la screen filterlist esta vacia y
-     * de esta maneara se muestra la pntalla de carga mientras se ejecuta el bloque de codigo de la
-     * corutina launched effect
-     */
+
     val isLoading : Boolean by remember {
         derivedStateOf { (filteredList.isEmpty() && searchValue == "") || isLoadingMovies }
     }
@@ -131,7 +124,7 @@ fun MainScreen(
         }
     }
     if(isLoading) {
-        loading()
+        Loading()
     } else {
         LazyColumn(
             modifier = Modifier
@@ -164,13 +157,9 @@ fun MainScreen(
         }
     }
 
-
-
-
-
 }
 @Composable
-fun loading() {
+fun Loading() {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -240,8 +229,8 @@ fun MovieCard(
         modifier = Modifier
             .padding(vertical = 4.dp, horizontal = 8.dp)
             .clickable {
-                movieViewModel.onMovieClicked(movie)
                 navController.navigate(Routes.MovieInfo.route)
+                movieViewModel.onMovieClicked(movie)
             }
     ) {
         ListItem(
