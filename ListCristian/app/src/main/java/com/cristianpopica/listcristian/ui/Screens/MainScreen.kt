@@ -124,6 +124,7 @@ fun MainScreen(
         filteredList = if(searchValue.isNotEmpty() && searchValue.isNotBlank() ) {
             movies.filter {
                 it.title.lowercase().contains(searchValue.trim().lowercase())
+                        || it.director.lowercase().contains(searchValue.trim().lowercase())
             }
         } else {
             movies
