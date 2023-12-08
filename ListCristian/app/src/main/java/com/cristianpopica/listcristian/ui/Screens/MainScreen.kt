@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Star
@@ -21,6 +23,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -36,6 +39,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -48,6 +52,7 @@ import androidx.navigation.NavHostController
 import com.cristianpopica.listcristian.Model.Movie
 import com.cristianpopica.listcristian.ViewModel.MovieViewModel
 import com.cristianpopica.listcristian.ui.Navigation.Routes
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 
@@ -104,7 +109,8 @@ fun MainScreen(
         mutableStateOf("")
     }
 
-
+    var scrollState  = rememberLazyListState()
+    val corroutineScope = rememberCoroutineScope()
     val isLoading : Boolean by remember {
         derivedStateOf { (filteredList.isEmpty() && searchValue == "") || isLoadingMovies }
     }
@@ -126,36 +132,58 @@ fun MainScreen(
     if(isLoading) {
         Loading()
     } else {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primary)
-                .padding(vertical = 8.dp),
-            state = LazyListState(0, 0)
+        Column(
+            modifier = Modifier.background(MaterialTheme.colorScheme.primary)
         ) {
-            item {
-                SearchBar(
-                    searchValue = searchValue,
-                    onValueChange = {searchValue = it},
-                    onFavoriteClick = {filteredList = filteredList.sortedByDescending { it.favorite } },
-                    onNameClick = { filteredList = filteredList.sortedBy { it.title }}
-                )
-            }
+            SearchBar(
+                searchValue = searchValue,
+                onValueChange = {searchValue = it},
+                onFavoriteClick = {filteredList = filteredList.sortedByDescending { it.favorite } },
+                onNameClick = { filteredList = filteredList.sortedBy { it.title }}
+            )
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.primary)
+                    .padding(vertical = 8.dp),
+                state = scrollState
+            ) {
 
-            if(filteredList.isEmpty()) {
-                item {
-                    Text(text = "No se han encontrado resultados")
+                if(filteredList.isEmpty()) {
+                    item {
+                        Text(text = "No se han encontrado resultados")
+                    }
+                } else {
+                    items(filteredList) {movie ->
+                        MovieCard(movie = movie, navController = navController , movieViewModel = movieViewModel)
+                    }
                 }
-            } else {
-                items(filteredList) {movie ->
-                    MovieCard(movie = movie, navController = navController , movieViewModel = movieViewModel)
-                }
+
+
+
             }
-
-
-
         }
+
+
+       Row(
+           modifier = Modifier.fillMaxWidth(),
+           verticalAlignment = Alignment.Bottom,
+           horizontalArrangement = Arrangement.End
+       ) {
+           if(scrollState.firstVisibleItemIndex > 0) {
+               FloatingActionButton(onClick = {
+                   corroutineScope.launch {
+                       scrollState.scrollToItem(0)
+                   }
+               }) {
+                   Icon(imageVector = Icons.Default.ArrowUpward, contentDescription = "Volver arriba")
+               }
+       }
+
+
     }
+
+}
 
 }
 @Composable
