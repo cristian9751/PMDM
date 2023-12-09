@@ -1,5 +1,6 @@
 package com.cristianpopica.listcristian.ui.Screens
 
+import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -54,8 +54,9 @@ import com.cristianpopica.listcristian.ViewModel.MovieViewModel
 import com.cristianpopica.listcristian.ui.Navigation.Routes
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 
+
+@kotlin.OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
@@ -245,7 +246,7 @@ fun DropDownMenuFilter(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@kotlin.OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieCard(
     movie : Movie,
@@ -284,4 +285,5 @@ fun MovieCard(
             }
         )
     }
+
 }
