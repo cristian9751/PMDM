@@ -13,6 +13,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.cristianpopica.workoutcristian.ui.Model.MainViewModel
+import com.cristianpopica.workoutcristian.ui.navigation.Routes
 
 @Composable
 fun MainScreen(navController : NavHostController, mainViewModel: MainViewModel) {
@@ -21,7 +22,8 @@ fun MainScreen(navController : NavHostController, mainViewModel: MainViewModel) 
     ) {
         Text(text = "Frase motivadora")
         nameField(mainViewModel)
-        repeatButton(mainViewModel)
+        repeatButtons(mainViewModel)
+        startButton(navController)
     }
 }
 
@@ -34,13 +36,26 @@ fun nameField(mainViewModel: MainViewModel) {
 }
 
 @Composable
-fun repeatButton(mainViewModel: MainViewModel) {
+fun repeatButtons(mainViewModel: MainViewModel) {
     val repeatWorkout by mainViewModel.repetitionsNumber.observeAsState(initial = 0)
-    Button(onClick = { mainViewModel.setRepetitionNumber(repeatWorkout + 1) }) {
-        Text(text = "Añadir repeticiones")
+    Row {
+        Button(onClick = { mainViewModel.setRepetitionNumber(repeatWorkout + 1) }) {
+            Text(text = "Añadir repeticiones")
+        }
+        Button(onClick = { mainViewModel.setRepetitionNumber(repeatWorkout -1) }) {
+            Text(text = "Reducir repeticiones")
+        }
+        Text(text = "$repeatWorkout")
     }
-    Text(text = "$repeatWorkout")
 
+}
+@Composable
+fun startButton(navController: NavHostController) {
+    Button(onClick = {
+        navController.navigate(Routes.WorkOutScreen.route)
+    }) {
+        Text(text = "Comenzar")
+    }
 }
 
 
