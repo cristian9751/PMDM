@@ -1,11 +1,10 @@
-package com.cristianpopica.workoutcristian.ui.Model
+package com.cristianpopica.workoutcristian.Model
 
 import com.cristianpopica.workoutcristian.R
-data class Workout(
-    val gifDrawableId : Int
-)  {
+
+data class Workout(val gifResourceId : Int) {
     companion object{
-        fun getWorkOuts() : List<Workout> {
+        fun getWorkouts() : List<Workout> {
             return listOf(
                 Workout(R.drawable.e1),
                 Workout(R.drawable.e2),
