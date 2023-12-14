@@ -1,6 +1,6 @@
 package com.cristianpopica.workoutcristian.Model
 
-import com.cristianpopica.workoutcristian.R
+import com.example.workoutcristian.R
 
 data class Workout(val gifResourceId : Int) {
     companion object{
