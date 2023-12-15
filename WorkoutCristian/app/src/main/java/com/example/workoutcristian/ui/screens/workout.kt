@@ -11,8 +11,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,6 +30,7 @@ import coil.request.ImageRequest
 import com.cristianpopica.workoutcristian.Model.Workout
 import com.cristianpopica.workoutcristian.ViewModel.MainViewModel
 import com.cristianpopica.workoutcristian.ViewModel.WorkoutViewModel
+import kotlin.random.Random
 
 
 @Composable
@@ -36,15 +39,12 @@ fun workoutScreen(
     navController: NavHostController,
     workoutViewModel: WorkoutViewModel
     ) {
-    var randomWorkouts : Set<Workout> = emptySet()
-    LaunchedEffect(false) {
-        randomWorkouts = workoutViewModel.workoutList.value?.shuffled()?.toSet() ?: emptySet()
-    }
 
-    randomWorkouts.forEach {workout ->
-        workoutViewModel.startWorkout(workout)
-    }
-
+   val randomWorkouts = workoutViewModel.workoutList.value?.shuffled()?.toSet() ?: emptySet()
+   val isDoingWorkout = workoutViewModel.isDoingWorkout.observeAsState(initial = false)
+   if(!isDoingWorkout.value) {
+       workoutViewModel.startWorkout(randomWorkouts.toList().get(1))
+   }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -73,7 +73,6 @@ fun goBackButton(navController : NavHostController) {
 
 @Composable
 fun workoutGif(workoutViewModel: WorkoutViewModel) {
-    val isDoingWorkout by workoutViewModel.isDoingWorkout.observeAsState(initial = false)
     val currentWorkout by workoutViewModel.currentWorkout.observeAsState(initial = Workout(0))
     val context = LocalContext.current
     val imageLoader = ImageLoader.Builder(context)
@@ -84,20 +83,18 @@ fun workoutGif(workoutViewModel: WorkoutViewModel) {
                 add(GifDecoder.Factory())
             }
         }.build()
-    if(isDoingWorkout) {
-        Image(
-            painter = rememberAsyncImagePainter(
-                ImageRequest
-                    .Builder(context)
-                    .data(data = currentWorkout.gifResourceId)
-                    .build(),
-                imageLoader = imageLoader
-            ),
-            contentDescription = "Excercise",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-        )
-    }
+            Image(
+                painter = rememberAsyncImagePainter(
+                    ImageRequest
+                        .Builder(context)
+                        .data(data = currentWorkout.gifResourceId)
+                        .build(),
+                    imageLoader = imageLoader
+                ),
+                contentDescription = "Excercise",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+            )
 }

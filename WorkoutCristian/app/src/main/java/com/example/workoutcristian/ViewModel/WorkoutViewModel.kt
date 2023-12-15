@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.cristianpopica.workoutcristian.Model.Workout
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class WorkoutViewModel : ViewModel() {
 
@@ -15,9 +16,9 @@ class WorkoutViewModel : ViewModel() {
 
     private val _workoutList = MutableLiveData<List<Workout>>()
     val workoutList : LiveData<List<Workout>> = _workoutList
-    private val _isDoingWorkout = MutableLiveData<Boolean>()
-    val isDoingWorkout : LiveData<Boolean> = _isDoingWorkout
     val _currentWorkOut = MutableLiveData<Workout>()
+    val _isDoingWorkout = MutableLiveData<Boolean>()
+    val isDoingWorkout : LiveData<Boolean> = _isDoingWorkout
     val currentWorkout : LiveData<Workout> = _currentWorkOut
 
     init {
@@ -25,10 +26,12 @@ class WorkoutViewModel : ViewModel() {
             _workoutList.value = Workout.getWorkouts()
         }
     }
-    fun startWorkout(workout: Workout) {
+
+
+    fun startWorkout(workout : Workout) {
         _currentWorkOut.value = workout
+        _isDoingWorkout.value = true
         viewModelScope.launch {
-            _isDoingWorkout.value = true
             delay(2000)
             _isDoingWorkout.value = false
         }
