@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             WorkoutCristianTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Navigation(MainViewModel(), WorkoutViewModel())
+                    Navigation(MainViewModel())
                 }
             }
         }

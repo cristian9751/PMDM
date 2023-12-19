@@ -11,7 +11,7 @@ import com.cristianpopica.workoutcristian.ui.screens.workoutScreen
 
 
 @Composable
-fun Navigation(mainViewModel: MainViewModel, workoutViewModel: WorkoutViewModel) {
+fun Navigation(mainViewModel: MainViewModel) {
     val navController = rememberNavController()
     NavHost(navController, startDestination = Routes.MainScreen.route) {
         composable(route = Routes.MainScreen.route) {
@@ -19,7 +19,7 @@ fun Navigation(mainViewModel: MainViewModel, workoutViewModel: WorkoutViewModel)
         }
 
         composable(route = Routes.WorkoutScreen.route) {
-            workoutScreen(mainViewModel, navController, workoutViewModel)
+            workoutScreen(mainViewModel, navController)
         }
     }
 

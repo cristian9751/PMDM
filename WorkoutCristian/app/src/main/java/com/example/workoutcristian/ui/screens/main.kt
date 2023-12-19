@@ -89,7 +89,7 @@ fun startWorkingOutButton(mainViewModel: MainViewModel, navController : NavHostC
         enabled = isValid,
         onClick = { navController.navigate(Routes.WorkoutScreen.route) },
     ) {
-        Text(text = "Comenzar")
+        Text(text = "Siguiente")
     }
 }
 
